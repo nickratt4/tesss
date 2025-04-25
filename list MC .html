@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Checklist Mod Minecraft</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+    }
+    .mod-list {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .mod-item {
+      margin: 10px 0;
+    }
+    .mod-item input {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Checklist Mod Minecraft 1.21</h1>
+
+<div class="mod-list" id="modList">
+</div>
+
+<script>
+  const mods = [
+    { name: "AppleSkin", url: "https://modrinth.com/mod/appleskin" },
+    { name: "Advanced AutoClicker", url: "https://modrinth.com/mod/autoclicker" },
+    { name: "Dynamic Lights", url: "https://modrinth.com/mod/dynamiclights" },
+    { name: "Fabric API", url: "https://modrinth.com/mod/fabric-api" },
+    { name: "Fabric Language Kotlin", url: "https://modrinth.com/mod/fabric-language-kotlin" },
+    { name: "FastTrading", url: "https://modrinth.com/mod/fasttrading" },
+    { name: "Freecam", url: "https://modrinth.com/mod/freecam" },
+    { name: "Gamma Utils", url: "https://modrinth.com/mod/gamma-utils" },
+    { name: "ImmediatelyFast", url: "https://modrinth.com/mod/immediatelyfast" },
+    { name: "Inventory Profiles Next", url: "https://modrinth.com/mod/inventory-profiles-next" },
+    { name: "Iris", url: "https://modrinth.com/mod/iris" },
+    { name: "Lithium", url: "https://modrinth.com/mod/lithium" },
+    { name: "Loot Beams", url: "https://modrinth.com/mod/lootbeams" },
+    { name: "Mod Menu", url: "https://modrinth.com/mod/modmenu" },
+    { name: "Shulker Box Tooltip", url: "https://modrinth.com/mod/shulkerboxtooltip" },
+    { name: "Skin Layers 3D", url: "https://modrinth.com/mod/skinlayers3d" },
+    { name: "Smart Block Placement", url: "https://modrinth.com/mod/smartblockplacement" },
+    { name: "Sodium Extra", url: "https://modrinth.com/mod/sodium-extra" },
+    { name: "Sodium", url: "https://modrinth.com/mod/sodium" },
+    { name: "Ukulib", url: "https://modrinth.com/mod/ukulib" },
+    { name: "Uku's Armor HUD", url: "https://modrinth.com/mod/ukus-armor-hud" },
+    { name: "XaeroPlus", url: "https://modrinth.com/mod/xaeroplus" },
+    { name: "Xaero's Minimap", url: "https://modrinth.com/mod/xaeros-minimap" },
+    { name: "Xaero's World Map", url: "https://modrinth.com/mod/xaeros-world-map" },
+    { name: "XPlus Autofish", url: "https://modrinth.com/mod/xplus-autofish" },
+    { name: "YetAnotherConfigLib", url: "https://modrinth.com/mod/yetanotherconfiglib" },
+    { name: "Zoomify", url: "https://modrinth.com/mod/zoomify" },
+    { name: "LazyDFU", url: "https://modrinth.com/mod/lazydfu" }
+  ];
+
+  const modListDiv = document.getElementById("modList");
+
+  function loadChecklist() {
+    const savedString = localStorage.getItem("modChecklist") || "";
+    const savedIndexes = savedString.split(",").map(Number).filter(n => !isNaN(n));
+    
+    mods.forEach((mod, index) => {
+      const isChecked = savedIndexes.includes(index);
+      const div = document.createElement("div");
+      div.className = "mod-item";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = isChecked;
+      checkbox.addEventListener("change", () => updateChecklist(index, checkbox.checked));
+
+      const label = document.createElement("label");
+      label.innerHTML = `${index + 1}. <a href="${mod.url}" target="_blank">${mod.name}</a>`;
+
+      div.appendChild(checkbox);
+      div.appendChild(label);
+      modListDiv.appendChild(div);
+    });
+  }
+
+  function updateChecklist(index, checked) {
+    let savedString = localStorage.getItem("modChecklist") || "";
+    let savedIndexes = savedString.split(",").map(Number).filter(n => !isNaN(n));
+    
+    if (checked) {
+      if (!savedIndexes.includes(index)) savedIndexes.push(index);
+    } else {
+      savedIndexes = savedIndexes.filter(i => i !== index);
+    }
+
+    localStorage.setItem("modChecklist", savedIndexes.join(","));
+  }
+
+  loadChecklist();
+</script>
+
+</body>
+</html>
